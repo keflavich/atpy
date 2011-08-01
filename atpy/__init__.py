@@ -219,6 +219,8 @@ register_reader('daophot', asciitables.read_daophot)
 register_reader('ascii', asciitables.read_ascii)
 register_writer('ascii', asciitables.write_ascii)
 
+register_writer('tex', asciitables.write_tex)
+
 import hdf5table
 
 register_reader('hdf5', hdf5table.read)
