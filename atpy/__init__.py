@@ -163,7 +163,7 @@ def _determine_type(string, verbose):
         extension = s
     else:
         extension = s.split('.')[-1]
-        if extension in ['gz', 'bzip2', 'Z']:
+        if extension.lower() in ['gz', 'bz2', 'bzip2']:
             extension = s.split('.')[-2]
 
     if extension in _extensions:
@@ -218,6 +218,8 @@ register_reader('daophot', asciitables.read_daophot)
 
 register_reader('ascii', asciitables.read_ascii)
 register_writer('ascii', asciitables.write_ascii)
+
+register_writer('tex', asciitables.write_tex)
 
 import hdf5table
 

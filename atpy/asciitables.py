@@ -1,4 +1,5 @@
 import os
+from decorators import auto_download_to_file, auto_decompress_to_fileobj
 
 # Thanks to Moritz Guenther for providing the initial code used to create this file
 
@@ -56,6 +57,19 @@ def read_rdb(self, filename, **kwargs):
     read_ascii(self, filename, Reader=asciitable.RdbReader, **kwargs)
 
 
+def write_tex(self, filename, **kwargs):
+    '''
+    Write data to a LaTeX table
+
+        Required Arguments:
+
+            *filename*: [ string ]
+                The file to write the table to
+
+        Keyword Arguments are passed to asciitable
+    '''
+    write_ascii(self, filename, Writer=asciitable.Latex, **kwargs)
+
 def write_rdb(self, filename, **kwargs):
     '''
     Write data to an RDB table
@@ -70,6 +84,9 @@ def write_rdb(self, filename, **kwargs):
     write_ascii(self, filename, Writer=asciitable.Rdb, **kwargs)
 
 
+# asciitable can handle file objects
+@auto_download_to_file
+@auto_decompress_to_fileobj
 def read_ascii(self, filename, **kwargs):
     '''
     Read a table from an ASCII file using asciitable
