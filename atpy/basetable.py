@@ -870,6 +870,30 @@ class Table(object):
 
         return
 
+    def merge(self, table2, field):
+        """ 
+        Merge table with another atpy Table based on matches in the "field"
+        column
+
+        Assumes the table is a numpy recordarray
+
+        Note that "self" can have multiple copies of the same record in the
+        "field" column, but only the *first* of the multiples from table2 will
+        be copied over
+        """
+
+        for column in table2.columns:
+            if column != field:
+                self.add_empty_column(column,table2[column].dtype,unit=table2[column].dtype)
+
+        for ii,entry in enumerate(self[field]):
+            match = entry == table2[field]
+            if match.sum():
+                for column in table2.columns:
+                    if column != field:
+                        self[column][ii] = table2[column][match][0]
+
+
 
 class TableSet(object):
 
@@ -1146,3 +1170,4 @@ class TableSet(object):
             value = value.strip()
         self.keywords[key.strip()] = value
         return
+
